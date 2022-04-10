@@ -33,10 +33,10 @@ class Patients(models.Model):
     name = models.CharField(max_length=64)
     surname = models.CharField(max_length=64)
     age = models.SmallIntegerField()
-    sex = models.CharField(choices=sex_types, max_length=1)
+    sex = models.CharField(choices=sex_types, max_length=3)
     race_and_ethnicity = models.SmallIntegerField(choices=race_and_ethnicity_types)
-    drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
-    treatment = models.ForeignKey(StudyScheme, on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drug, on_delete=models.CASCADE, null=True)
+    study_scheme = models.ForeignKey(StudyScheme, on_delete=models.CASCADE)
     patient_author = models.ForeignKey(User, on_delete=models.PROTECT)
 
 class AdverseEvent(models.Model):

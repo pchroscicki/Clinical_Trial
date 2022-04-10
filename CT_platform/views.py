@@ -4,8 +4,8 @@ from datetime import date, timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
-from CT_platform.forms import AddDrugForm, AddStudySchemeForm
-from CT_platform.models import Drug, StudyScheme
+from CT_platform.forms import AddDrugForm, AddStudySchemeForm, AddPatientForm
+from CT_platform.models import Drug, StudyScheme, Patients
 
 
 class IndexView(View):
@@ -46,6 +46,24 @@ class AddStudySchemeView(LoginRequiredMixin, View):
             return redirect('study_scheme_list')
         return render(request, 'form.html', {'form': form})
 
+
 class StudySchemeListView(LoginRequiredMixin, View):
+
     def get(self, request):
         return render(request, 'study_scheme_list.html', {'study_scheme_list': StudyScheme.objects.all()})
+
+
+class AddPatientView(View):
+
+    def get(self, request):
+        form = AddPatientForm()
+        return render(request, 'form.html', {'form': form})
+
+    def post(self, request):
+        form = AddPatientForm(request.POST)
+        if form.is_valid():
+            patient = form.save(commit=False)
+            patient.patient_author = request.user
+            patient.save()
+            return redirect('index')
+        return render(request, 'form.html', {'form': form})

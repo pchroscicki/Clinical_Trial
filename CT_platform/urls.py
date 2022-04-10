@@ -21,4 +21,5 @@ urlpatterns = [
     path('drug_list/', views.DrugListView.as_view(), name='drug_list'),
     path('add_study_scheme/', views.AddStudySchemeView.as_view(), name='add_study_scheme'),
     path('study_scheme_list/', views.StudySchemeListView.as_view(), name='study_scheme_list'),
+    path('add_patient/', views.AddPatientView.as_view(), name='add_patient'),
 ]

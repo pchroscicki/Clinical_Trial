@@ -4,7 +4,7 @@ from django.test import Client
 from django.urls import reverse
 
 # Create your tests here.
-from CT_platform.models import Drug, StudyScheme
+from CT_platform.models import Drug, StudyScheme, Patients
 
 
 def test_empty():
@@ -71,3 +71,20 @@ def test_study_scheme_list(user, study_schemes):
     assert response.context['study_scheme_list'].count() == len(study_schemes)
     for item in study_schemes:
         assert item in response.context['study_scheme_list']
+
+@pytest.mark.django_db
+def test_add_patient_view(user, study_scheme, drugs): #nie działa
+    url = reverse('add_patient')
+    client = Client()
+    client.force_login(user)
+    d = {
+        'name': 'John',
+        'surname': 'Snow',
+        'age':  42,
+        'sex': 'M',
+        'race_and_ethnicity': 5,
+        'study_scheme': study_scheme.id
+    }
+    response = client.post(url, d)
+    assert response.status_code == 302
+    assert Patients.objects.get(name='John')
