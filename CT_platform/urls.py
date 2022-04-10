@@ -18,8 +18,4 @@ from django.urls import path, include
 from CT_platform import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index'),
-    path('CT_platform/', include('CT_platform.urls')),
-    path('Accounts/', include('Accounts.urls')),
 ]

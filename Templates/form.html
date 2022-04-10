@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block template %}
+<h2>{{ title1 }}</h2>
+<h2>{{ title2 }}</h2>
+    <form method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        {{ error }}
+    <input type="submit" value="OK">
+    </form>
+{% endblock %}

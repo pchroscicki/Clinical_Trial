@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <img src="{% static 'pfizer-logo.png' %}">
+    <title>Title</title>
+</head>
+<body>
+<h1>A Phase 3 study of Drug A in patients with Diabetes mellitus</h1>
+<div>
+    <p> User: {{ user }} </p>
+</div>
+<div class="topnav">
+
+    <a href="{% url 'index' %}">Home</a>
+    {% if perms.Accounts.view_user %}
+        <a href="{% url 'userlist' %}">Users</a>
+    {% endif %}
+    {% if user.is_authenticated %}
+        {% if perms.Accounts.add_user %}
+            <a href="{% url 'register' %}"> Register</a>
+        {% endif %}
+        <a href="{% url 'change_password' %}"> Change Password</a>
+        <a href="{% url 'logout' %}"> Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}"> Login</a>
+    {% endif %}
+</div>
+<p>
+    {% block template %}
+        Clinical trial will include 40 diabetic patients(fasting glucose>5,5mmol/l and OGTT>7,8 mmol/l)
+        in total, who will be randomly assigned into 1 out of  2 therapy arms with: reference drug or
+        drug candidate A. Equal number of patients (20 patients) will be randomly
+        allocated into each study group. The trial will be double-blinded, meaning that the drug will
+        be encrypted by random: A or B labels and kept secret for employees in contact with patients. After
+        patient registration and medical interview at day 0, the pills at the dose appropriate to
+        patient's body weight will be issued by the pharmacist. The medical control visits will take
+        place every 14 days during 70-day-long therapy scheme. The control follow-up visit should occur
+        at least 1 year after the last dose. In preclinical studies the incidence of body weight loss
+        and eyesight worsening were reported as the most common adverse events, those these parameters
+        will be investigated during check-up visits.
+    {% endblock %}
+</p>
+</body>
+<footer class="footer-section pt-3 pb-3">
+    <div class="container text-center">
+        <p>Created by Piotr Chroscicki</p>
+        <p>Copyright © 2022 Chroscicki Studio. All rights reserved.</p>
+    </div>
+    <div class="container text-center2">
+        {{ actual_date }}
+    </div>
+</footer>
+</html>
