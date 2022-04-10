@@ -24,6 +24,12 @@
     {% if perms.CT_platform.add_drug %}
     <a href="{% url 'add_drug' %}">Add Drug</a>
     {% endif %}
+     {% if perms.CT_platform.view_treatment %}
+        <a href="{% url 'study_scheme_list' %}">CT Scheme List</a>
+    {% endif %}
+    {% if perms.CT_platform.add_treatment %}
+        <a href="{% url 'add_study_scheme' %}">Add CT Scheme</a>
+    {% endif %}
     {% if perms.Accounts.view_user %}
         <a href="{% url 'userlist' %}">Users</a>
     {% endif %}

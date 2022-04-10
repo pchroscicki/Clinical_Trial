@@ -19,4 +19,6 @@ from CT_platform import views
 urlpatterns = [
     path('add_drug/', views.AddDrugView.as_view(), name='add_drug'),
     path('drug_list/', views.DrugListView.as_view(), name='drug_list'),
+    path('add_study_scheme/', views.AddStudySchemeView.as_view(), name='add_study_scheme'),
+    path('study_scheme_list/', views.StudySchemeListView.as_view(), name='study_scheme_list'),
 ]
