@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block template %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="th">ID</th>
+                <th class="th">Drug name</th>
+                <th class="th">Label</th>
+                <th class="th">Drug status</th>
+                <th class="th">Dosage [mg/day]</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in drug_list %}
+            <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.label}}</td>
+                <td>{{item.status}}</td>
+                <td>{{item.dosage}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

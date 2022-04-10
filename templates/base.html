@@ -18,6 +18,12 @@
 <div class="topnav">
 
     <a href="{% url 'index' %}">Home</a>
+    {% if perms.CT_platform.view_drug %}
+        <a href="{% url 'drug_list' %}">Drug List</a>
+    {% endif %}
+    {% if perms.CT_platform.add_drug %}
+    <a href="{% url 'add_drug' %}">Add Drug</a>
+    {% endif %}
     {% if perms.Accounts.view_user %}
         <a href="{% url 'userlist' %}">Users</a>
     {% endif %}
