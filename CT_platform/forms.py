@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from CT_platform.models import Drug, StudyScheme, Patients
+from CT_platform.models import Drug, StudyScheme, Patients, Visit, AdverseEvent
 
 
 class AddDrugForm(forms.ModelForm):
@@ -21,6 +21,12 @@ class AddPatientForm(forms.ModelForm):
     class Meta:
         model = Patients
         exclude = ['patient_author', 'drug']
+
+class AddVisitForm(forms.Form):
+    weight = forms.FloatField()
+    ogtt = forms.FloatField()
+    discontinuation = forms.BooleanField(required=False, initial=False)
+    related_adverse_event = forms.ModelChoiceField(queryset=AdverseEvent.objects.all(), required=False, initial=False)
 
 
 

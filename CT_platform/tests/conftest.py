@@ -1,5 +1,5 @@
 import pytest
-from CT_platform.models import Drug, StudyScheme
+from CT_platform.models import Drug, StudyScheme, Patients, AdverseEvent
 from django.contrib.auth.models import User
 
 @pytest.fixture
@@ -46,3 +46,32 @@ def study_schemes():
         study_schemes.append(ss)
     return study_schemes
 
+@pytest.fixture
+def patient(user, study_scheme):
+    return Patients.objects.create(
+        name='John', surname='Snow', age=40,
+        sex='M', race_and_ethnicity=5, study_scheme=study_scheme , patient_author=user)
+
+@pytest.fixture
+def patients(user, study_scheme):
+    patients = []
+    for x in range(30, 35):
+        name = f'name{x}'
+        surname = f'surname{x}'
+        p = Patients.objects.create(
+            name=name, surname=surname, age=x,
+        sex='M', race_and_ethnicity=0, study_scheme=study_scheme , patient_author=user)
+        patients.append(p)
+    for x in range(30, 35):
+        name = f'name{x}'
+        surname = f'surname{x}'
+        p = Patients.objects.create(
+            name=name, surname=surname, age=x,
+            sex='M', race_and_ethnicity=0, study_scheme=study_scheme, patient_author=user)
+        patients.append(p)
+    return patients
+
+@pytest.fixture
+def adverse_event(user, patient):
+    return AdverseEvent.objects.create(
+        patient=patient, name='fever', description='40 Celsius', onset='10-04-2022', author=user)

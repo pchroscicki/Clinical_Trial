@@ -13,6 +13,7 @@ class Drug(models.Model):
         return self.label
 
 class StudyScheme(models.Model):
+    name = models.CharField(max_length=64)
     patient_cohort = models.SmallIntegerField(default=20)
     therapy_duration = models.SmallIntegerField(default=70)
     visits_frequency = models.SmallIntegerField(default=14)
@@ -45,14 +46,14 @@ class AdverseEvent(models.Model):
     description = models.TextField(null=True)
     onset = models.DateField()
     end = models.DateField(null=True)
-    ae_author = models.ForeignKey(User, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
 
 class Visit(models.Model):
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
-    weight = models.FloatField(null=True)
-    ogtt = models.FloatField(null=True)
+    weight = models.FloatField()
+    ogtt = models.FloatField()
     discontinuation = models.BooleanField(default=False)
-    related_ae = models.OneToOneField(AdverseEvent, on_delete=models.CASCADE, null=True)
-    visit_author = models.ForeignKey(User, on_delete=models.PROTECT)
+    related_adverse_event = models.OneToOneField(AdverseEvent, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)

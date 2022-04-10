@@ -4,15 +4,17 @@
         <thead>
             <tr>
                 <th class="th">ID</th>
+                <th class="th">Name</th>
                 <th class="th">Cohort [ea.drug]</th>
                 <th class="th">Therapy duration [days]</th>
                 <th class="th">Visits interval [days]</th>
             </tr>
         </thead>
         <tbody>
-        {% for item in treatment_list %}
+        {% for item in study_scheme_list %}
             <tr>
                 <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
                 <td>{{item.patient_cohort}}</td>
                 <td>{{item.therapy_duration}}</td>
                 <td>{{item.visits_frequency}}</td>
