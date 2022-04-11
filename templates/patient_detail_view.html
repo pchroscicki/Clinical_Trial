@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block template %}
+<h2>Patient details: ID{{ patient.id }}</h2>
+<br>
+<div class="patient">
+    <h2>Biometric informations & therapy</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="th">ID</th>
+                <th class="th">Age</th>
+                <th class="th">Sex</th>
+                <th class="th">Race & Ethnicity</th>
+                <th class="th">Drug</th>
+                <th class="th">Study_scheme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{patient.id}}</td>
+                <td>{{patient.age}}</td>
+                <td>{{patient.sex}}</td>
+                <td>{{patient.race_and_ethnicity}}</td>
+                <td>{{patient.drug}}</td>
+                <td>{{patient.study_scheme}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="visits">
+    <h2>Visits</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="th">Visit No.</th>
+                <th class="th">Date</th>
+                <th class="th">Weight [kg]</th>
+                <th class="th">OGTT [mmol/l]</th>
+                <th class="th">Discontinuation</th>
+                <th class="th">Reason:AE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in visits %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.weight}}</td>
+                    <td>{{item.ogtt}}</td>
+                    <td>{{item.discontinuation}}</td>
+                    <td>{{item.related_ae}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="adverse_events">
+    <h2>Adverse Events</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="th">ID</th>
+                <th class="th">Name</th>
+                <th class="th">Description</th>
+                <th class="th">Onset</th>
+                <th class="th">End</th>
+                <th class="th">Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in adverse_events %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.score}}</td>
+                    <td>{{item.onset}}</td>
+                    <td>{{item.end}}</td>
+                    <td><a href="{{item.id}}/"> <button>Edytuj</button></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

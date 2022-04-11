@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from CT_platform.models import Drug, StudyScheme, Patients, AdverseEvent
 from django.contrib.auth.models import User
@@ -73,5 +75,6 @@ def patients(user, study_scheme):
 
 @pytest.fixture
 def adverse_event(user, patient):
+    today = datetime.date.today()
     return AdverseEvent.objects.create(
-        patient=patient, name='fever', description='40 Celsius', onset='10-04-2022', author=user)
+        patient=patient, name='fever', description='40 Celsius', onset=today, author=user)

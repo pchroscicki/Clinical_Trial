@@ -1,3 +1,5 @@
+from datetime import date
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -21,6 +23,19 @@ class AddPatientForm(forms.ModelForm):
     class Meta:
         model = Patients
         exclude = ['patient_author', 'drug']
+
+class AddAdverseEventForm(forms.ModelForm):
+
+    class Meta:
+        model = AdverseEvent
+        exclude = ['patient', 'author']
+        required = ('name', 'onset')
+        widgets = {
+            'description': forms.Textarea,
+            'onset': forms.SelectDateWidget,
+            'end': forms.SelectDateWidget,
+        }
+
 
 class AddVisitForm(forms.Form):
     weight = forms.FloatField()

@@ -22,5 +22,9 @@ urlpatterns = [
     path('add_study_scheme/', views.AddStudySchemeView.as_view(), name='add_study_scheme'),
     path('study_scheme_list/', views.StudySchemeListView.as_view(), name='study_scheme_list'),
     path('add_patient/', views.AddPatientView.as_view(), name='add_patient'),
-    path('add_visit/<int:patient_id>/', views.AddVisitView.as_view(), name='add_visit'),
+    path('main_page/', views.PatientListView.as_view(), name='main_page'),
+    path('main_page/<int:patient_id>/', views.PatientDetailView.as_view(), name='patient_details'),
+    path('main_page/add_visit/<int:patient_id>/', views.AddVisitView.as_view(), name='add_visit'),
+    path('main_page/add_ae/<int:patient_id>/', views.AddAdverseEventView.as_view(), name='add_ae'),
+    path('main_page/<int:patient_id>/<int:ae_id>/', views.UpdateAdverseEventView.as_view(), name='update_ae'),
 ]

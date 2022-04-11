@@ -41,11 +41,11 @@ class Patients(models.Model):
     patient_author = models.ForeignKey(User, on_delete=models.PROTECT)
 
 class AdverseEvent(models.Model):
-    patient = models.OneToOneField(Patients, on_delete=models.CASCADE, primary_key=True)
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     onset = models.DateField()
-    end = models.DateField(null=True)
+    end = models.DateField(null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
 
 class Visit(models.Model):

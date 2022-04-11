@@ -1,10 +1,12 @@
+import datetime
+
 from django.test import TestCase
 import pytest
 from django.test import Client
 from django.urls import reverse
 
 # Create your tests here.
-from CT_platform.models import Drug, StudyScheme, Patients, Visit
+from CT_platform.models import Drug, StudyScheme, Patients, Visit, AdverseEvent
 
 
 def test_empty():
@@ -103,3 +105,28 @@ def test_add_visit_view(user, patient):
     assert response.status_code == 302
     assert Visit.objects.get(name='Visit 0')
 
+@pytest.mark.django_db
+def test_add_adverse_event(user, patient):
+    url = reverse('add_ae', kwargs={'patient_id': patient.id})
+    client = Client()
+    client.force_login(user)
+    today = datetime.date.today()
+    d = {
+        'name': 'Fever',
+        'onset': today,
+    }
+    response = client.post(url, d)
+    assert response.status_code == 302
+    assert AdverseEvent.objects.get(name='Fever')
+
+@pytest.mark.django_db
+def test_update_adverse_event(user, patient, adverse_event):
+    url = reverse('update_ae', kwargs={'patient_id': patient.id, 'ae_id': adverse_event.id})
+    client = Client()
+    client.force_login(user)
+    d = {
+        'name': 'Anemia'
+    }
+    response = client.post(url, d)
+    assert response.status_code == 302
+    assert AdverseEvent.objects.get(name='Anemia')

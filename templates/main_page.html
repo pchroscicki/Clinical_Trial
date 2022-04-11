@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block template %}
+<h2>{{ text1 }}</h2>
+<h2>{{text2}}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="th">ID</th>
+                <th class="th">Drug</th>
+                <th class="th">Study Scheme</th>
+                <th class="th">Add Visit</th>
+                <th class="th">Add AE</th>
+                <th class="th">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients_list %}
+            <tr>
+                <td>{{patient.id}}</td>
+                <td>{{patient.drug}}
+                <td>{{patient.study_scheme}}</td>
+                <td><a href="add_visit/{{item.id}}/"> <button>Add Visit</button></a></td>
+                <td><a href="add_ae/{{item.id}}/"> <button>Add AE</button></a></td>
+                <td><a href="{{item.id}}/"> <button>Details</button></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

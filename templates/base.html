@@ -18,6 +18,9 @@
 <div class="topnav">
 
     <a href="{% url 'index' %}">Home</a>
+    {% if perms.CT_platform.view_patients %}
+        <a href="{% url 'main_page' %}">Patients List</a>
+    {% endif %}
     {% if perms.CT_platform.add_patients %}
         <a href="{% url 'add_patient' %}">Add Patient</a>
     {% endif %}
