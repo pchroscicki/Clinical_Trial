@@ -179,11 +179,14 @@ def test_add_adverse_event(user, patient):
 
 @pytest.mark.django_db
 def test_update_adverse_event(user, patient, adverse_event):
+    print(adverse_event.name)
     url = reverse('update_ae', kwargs={'patient_id': patient.id, 'ae_id': adverse_event.id})
     client = Client()
     client.force_login(user)
     d = {
-        'name': 'Anemia'
+        'name': 'Anemia',
+        'description': adverse_event.description,
+        'onset': adverse_event.onset
     }
     response = client.post(url, d)
     assert response.status_code == 302
