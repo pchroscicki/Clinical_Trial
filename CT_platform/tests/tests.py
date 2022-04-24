@@ -93,6 +93,64 @@ def test_add_patient_view(user, study_scheme):
     assert Patients.objects.get(name='John')
 
 @pytest.mark.django_db
+def test_patients_list(user, patients, study_scheme, drug):
+    client = Client()
+    client.force_login(user)
+    url = reverse('main_page')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['patients_list'].count() == len(patients)
+    for patient in patients:
+        assert patient in response.context['patients_list']
+
+@pytest.mark.django_db
+def test_patient_details_patient(user, patient, adverse_events, visit):
+    client = Client()
+    client.force_login(user)
+    url = reverse('patient_details', kwargs={'patient_id': patient.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert patient == response.context['patient']
+
+@pytest.mark.django_db
+def test_patient_details_ae(user, patient, adverse_events, visit):
+    client = Client()
+    client.force_login(user)
+    url = reverse('patient_details', kwargs={'patient_id': patient.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['adverse_events'].count() == len(adverse_events)
+    for event in adverse_events:
+        assert event in response.context['adverse_events']
+
+@pytest.mark.django_db
+def test_patient_details_visits(user, patient, adverse_event, visits):
+    client = Client()
+    client.force_login(user)
+    url = reverse('patient_details', kwargs={'patient_id': patient.id})
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.context['visits'].count() == len(visits)
+    for visit in visits:
+        assert visit in response.context['visits']
+
+@pytest.mark.django_db
+def test_patient_details_ae_order(user, patient, adverse_events, visit):
+    primary_list = AdverseEvent.objects.all().values_list('id')
+    print(primary_list)
+    client = Client()
+    client.force_login(user)
+    url = reverse('patient_details', kwargs={'patient_id': patient.id})
+    response = client.get(url)
+    ae_number = len(adverse_events)
+    ae_id_order = []
+    for x in range(ae_number):
+        ae_id_order.append(response.context['adverse_events'][x].id)
+    print(ae_id_order)
+    for z in range(4):
+        assert ae_id_order[z] < ae_id_order[z+1]
+
+@pytest.mark.django_db
 def test_add_visit_view(user, patient):
     url = reverse('add_visit', kwargs={'patient_id': patient.id})
     client = Client()
@@ -130,3 +188,4 @@ def test_update_adverse_event(user, patient, adverse_event):
     response = client.post(url, d)
     assert response.status_code == 302
     assert AdverseEvent.objects.get(name='Anemia')
+

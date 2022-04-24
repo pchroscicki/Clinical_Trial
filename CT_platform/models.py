@@ -18,6 +18,9 @@ class StudyScheme(models.Model):
     therapy_duration = models.SmallIntegerField(default=70)
     visits_frequency = models.SmallIntegerField(default=14)
 
+    def __str__(self):
+        return self.name
+
 class Patients(models.Model):
     sex_types = (
         ('M', 'male'),
@@ -40,6 +43,7 @@ class Patients(models.Model):
     study_scheme = models.ForeignKey(StudyScheme, on_delete=models.CASCADE)
     patient_author = models.ForeignKey(User, on_delete=models.PROTECT)
 
+
 class AdverseEvent(models.Model):
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -57,3 +61,6 @@ class Visit(models.Model):
     discontinuation = models.BooleanField(default=False)
     related_adverse_event = models.OneToOneField(AdverseEvent, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name

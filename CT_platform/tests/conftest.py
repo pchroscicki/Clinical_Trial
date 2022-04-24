@@ -1,7 +1,8 @@
 import datetime
+import random
 
 import pytest
-from CT_platform.models import Drug, StudyScheme, Patients, AdverseEvent
+from CT_platform.models import Drug, StudyScheme, Patients, AdverseEvent, Visit
 from django.contrib.auth.models import User
 
 @pytest.fixture
@@ -78,3 +79,28 @@ def adverse_event(user, patient):
     today = datetime.date.today()
     return AdverseEvent.objects.create(
         patient=patient, name='fever', description='40 Celsius', onset=today, author=user)
+
+@pytest.fixture
+def adverse_events(user, patient):
+    today = datetime.date.today()
+    adverse_events = []
+    for x in range(10):
+        name = f'adverse_event_{x}'
+        description = f'description_{x}'
+        ae = AdverseEvent.objects.create(patient=patient, name=name,
+                                    description=description, onset=today, author=user)
+        adverse_events.append(ae)
+    return adverse_events
+
+@pytest.fixture
+def visit(user, patient):
+    return Visit.objects.create(patient=patient, weight=80, ogtt=21.3, author=user)
+
+@pytest.fixture
+def visits(user, patient):
+    visits = []
+    for x in range(18, 24):
+        v = Visit.objects.create(patient=patient, weight=x, ogtt=x, author=user)
+        visits.append(v)
+    random.shuffle(visits)
+    return visits
