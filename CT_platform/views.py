@@ -54,11 +54,12 @@ class StudySchemeListView(LoginRequiredMixin, View):
         return render(request, 'study_scheme_list.html', {'study_scheme_list': StudyScheme.objects.all()})
 
 
-class AddPatientView(View):
+class AddPatientView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = AddPatientForm()
         return render(request, 'form.html', {'form': form})
+
 
     def post(self, request):
         form = AddPatientForm(request.POST)
@@ -71,7 +72,7 @@ class AddPatientView(View):
         return render(request, 'form.html', {'form': form})
 
 
-class PatientListView(View): ###do poprawienia
+class PatientListView(LoginRequiredMixin, View):
 
     def get(self, request):
         patients_list = Patients.objects.all()
@@ -98,16 +99,16 @@ class PatientDetailView(LoginRequiredMixin, View):
         return render(request, 'patient_detail_view.html', context)
 
 
-class AddVisitView(View):
+class AddVisitView(LoginRequiredMixin, View):
     def get(self, request, patient_id):
         form = AddVisitForm()
         title1 = 'Add Visit Form'
         title2 = f'Patient ID: {patient_id}'
-        return render(request, 'form.html', {'form':form, 'title1': title1, 'title2': title2})
+        return render(request, 'form.html', {'form': form, 'title1': title1, 'title2': title2})
 
     def post(self, request, patient_id):
         patient = Patients.objects.get(id=patient_id)
-        patient_visits = len(Visit.objects.all().filter(patient=patient_id))
+        patient_visits = len(Visit.objects.filter(patient=patient))
         form = AddVisitForm(request.POST)
         if form.is_valid():
             weight = form.cleaned_data['weight']
@@ -156,7 +157,7 @@ class UpdateAdverseEventView(LoginRequiredMixin, View):
         patient = Patients.objects.get(id=patient_id)
         ae_to_be_updated = AdverseEvent.objects.get(id=ae_id)
         form = AddAdverseEventForm(instance=ae_to_be_updated)
-        title1 = f'Adverse Event Form: Adverse Event ID: {ae_to_be_updated}'
+        title1 = f'Adverse Event Form: Adverse Event ID: {ae_to_be_updated.id}'
         title2 = f'Patient ID: {patient.id}'
         return render(request, 'form.html', {'form': form, 'title1': title1, 'title2': title2})
 
@@ -169,7 +170,8 @@ class UpdateAdverseEventView(LoginRequiredMixin, View):
             ae.patient = patient
             ae.author = request.user
             ae.save()
-            return redirect(reverse ('add_visit',  kwargs={"patient_id": patient_id}))
+            return redirect(reverse ('patient_details',  kwargs={"patient_id": patient_id}))
         title1 = f'Adverse Event Form: Adverse Event ID: {ae_to_be_updated.id}'
         title2 = f'Patient ID: {patient.id}'
         return render(request, 'form.html', {'form': form, 'title1': title1, 'title2': title2})
+

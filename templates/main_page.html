@@ -19,9 +19,9 @@
                 <td>{{patient.id}}</td>
                 <td>{{patient.drug}}
                 <td>{{patient.study_scheme}}</td>
-                <td><a href="add_visit/{{item.id}}/"> <button>Add Visit</button></a></td>
-                <td><a href="add_ae/{{item.id}}/"> <button>Add AE</button></a></td>
-                <td><a href="{{item.id}}/"> <button>Details</button></a></td>
+                <td><a href="add_visit/{{patient.id}}/"> <button>Add Visit</button></a></td>
+                <td><a href="add_ae/{{patient.id}}/"> <button>Add AE</button></a></td>
+                <td><a href="{{patient.id}}/"> <button>Details</button></a></td>
             </tr>
         {% endfor %}
         </tbody>
