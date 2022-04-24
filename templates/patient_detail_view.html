@@ -37,7 +37,7 @@
                 <th class="th">Weight [kg]</th>
                 <th class="th">OGTT [mmol/l]</th>
                 <th class="th">Discontinuation</th>
-                <th class="th">Reason:AE</th>
+                <th class="th">Related AE [ID]</th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +48,7 @@
                     <td>{{item.weight}}</td>
                     <td>{{item.ogtt}}</td>
                     <td>{{item.discontinuation}}</td>
-                    <td>{{item.related_ae}}</td>
+                    <td>{{item.related_adverse_event.id}}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -52,6 +52,7 @@ class AdverseEvent(models.Model):
     end = models.DateField(null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
 
+
 class Visit(models.Model):
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
