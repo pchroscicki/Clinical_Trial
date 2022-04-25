@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Clinical-Trial</title>
+    <title>Clinical Trial</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <div class="container">
         <img src="{% static 'logo.png' %}">
@@ -66,9 +66,13 @@
     </div>
 </body>
 <footer>
-    <div>
+    <div class="author">
         <p>Created by Piotr Chroscicki</p>
+    </div>
+    <div class="copyright">
         <p>Copyright © 2022 Chroscicki Studio. All rights reserved.</p>
+    </div>
+    <div class="date">
         <p>{{ actual_date }}</p>
     </div>
 </footer>

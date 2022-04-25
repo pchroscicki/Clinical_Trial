@@ -76,12 +76,11 @@ table th {
 }
 
 footer {
-    width: 100%;
     background-color: #626977;
     font-size: 16px;
     color: white;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    text-align: center;
+    align-items: center;
+    padding: 20px;
 }
