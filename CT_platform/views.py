@@ -69,7 +69,8 @@ class StudySchemeListView(LoginRequiredMixin, View):
 
 class AddPatientView(LoginRequiredMixin, View):
     """
-    Adds a new patient and returns the Visit0 form.
+    Adds a new patient with randomly assigned drug.
+    Returns the Visit0 form.
     Medical Doctor permissions required.
     """
     def get(self, request):
@@ -82,10 +83,23 @@ class AddPatientView(LoginRequiredMixin, View):
         if form.is_valid():
             patient = form.save(commit=False)
             patient.patient_author = request.user
+            patient.drug = self.random_drug()
             patient.save()
             patient_id = Patients.objects.last().id
             return redirect(reverse ('add_visit',  kwargs={"patient_id": patient_id}))
         return render(request, 'form.html', {'form': form})
+
+    @staticmethod
+    def random_drug():     ## formula for random drug assigment
+        drug_options = list(Drug.objects.values_list('id', flat=True))
+        possible_drug = []
+        for i in drug_options:
+            treatment_scheme = StudyScheme.objects.last()
+            applied_drugs = list(Patients.objects.filter(drug=i).values_list('id', flat=True))
+            choices = [i] * (treatment_scheme.patient_cohort - len(applied_drugs))
+            possible_drug.extend(choices)
+        selected_drug_id = random.choice(possible_drug)
+        return Drug.objects.get(id=selected_drug_id)
 
 
 class PatientListView(LoginRequiredMixin, View):
