@@ -1,9 +1,5 @@
 # Clinical_Trial
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-This apllication allows to plan and collect data from clinical trials. 
-=======
 STATUS: During development
 
 This apllication allows to plan and collect data from single- or multi-center clinical trials.
@@ -14,4 +10,3 @@ Functionalities:
   - Collect the data from each visit and adverse events (can be reached under 'patient's details' tab).
   - Display the status of patients' enrolment and estimated time of study close-up.
   - Create new users (defined profiles: Clinical Research Associate, Medical Doctor, Pharmacologist, EMA officer)
-
