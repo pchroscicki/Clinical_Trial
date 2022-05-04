@@ -49,9 +49,10 @@ class RegisterView(LoginRequiredMixin, View):
          return render(request, 'form.html', {'form': form})
 
 
-class UserListView(ListView):
+class UserListView(View):
     model = User
     template_name = 'users_list_view.html'
+
 
 class UserPermSetting(UserPassesTestMixin, View):
     def test_func(self):
@@ -74,9 +75,7 @@ class UserPermSetting(UserPassesTestMixin, View):
 class Change_password(LoginRequiredMixin, View):
     def get(self, request):
         form = ChangePasswordForm()
-        return render(request, 'form.html', {
-            'form': form
-        })
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
         form = ChangePasswordForm(request.POST)
@@ -89,7 +88,5 @@ class Change_password(LoginRequiredMixin, View):
         else:
             messages.error(request, 'Please correct the error below.')
             form = ChangePasswordForm(request.user)
-            return render(request, 'form.html', {
-                 'form': form
-            })
+            return render(request, 'form.html', {'form': form})
 
