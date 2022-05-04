@@ -10,13 +10,18 @@ from CT_platform.models import Drug, StudyScheme, Patients, Visit, AdverseEvent
 
 
 class IndexView(View):
-
+    """
+    Returns homepage.
+    """
     def get(self, request):
         return render(request, 'base.html', {'actual_date': date.today()})
 
 
 class AddDrugView(LoginRequiredMixin, View):
-
+    """
+    Adds a new drug and returns list of all drugs.
+    Clinical Research Associate permissions required.
+    """
     def get(self, request):
         form = AddDrugForm()
         return render(request, 'form.html', {'form': form})
@@ -30,12 +35,18 @@ class AddDrugView(LoginRequiredMixin, View):
 
 
 class DrugListView(LoginRequiredMixin, View):
+    """
+    Returns list of all drugs.
+    """
     def get(self, request):
         return render(request, 'drug_list.html', {'drug_list': Drug.objects.all()})
 
 
 class AddStudySchemeView(LoginRequiredMixin, View):
-
+    """
+    Adds a new study scheme and returns list of all schemes.
+    Clinical Research Associate permissions required.
+    """
     def get(self, request):
         form = AddStudySchemeForm()
         return render(request, 'form.html', {'form': form})
@@ -49,13 +60,18 @@ class AddStudySchemeView(LoginRequiredMixin, View):
 
 
 class StudySchemeListView(LoginRequiredMixin, View):
-
+    """
+    Returns list of all study schemes.
+    """
     def get(self, request):
         return render(request, 'study_scheme_list.html', {'study_scheme_list': StudyScheme.objects.all()})
 
 
 class AddPatientView(LoginRequiredMixin, View):
-
+    """
+    Adds a new patient and returns the Visit0 form.
+    Medical Doctor permissions required.
+    """
     def get(self, request):
         form = AddPatientForm()
         return render(request, 'form.html', {'form': form})
@@ -73,7 +89,9 @@ class AddPatientView(LoginRequiredMixin, View):
 
 
 class PatientListView(LoginRequiredMixin, View):
-
+    """
+    Returns list of all patients.
+    """
     def get(self, request):
         patients_list = Patients.objects.all()
         patients_number = len(patients_list)
@@ -90,6 +108,9 @@ class PatientListView(LoginRequiredMixin, View):
 
 
 class PatientDetailView(LoginRequiredMixin, View):
+    """
+    Returns details od patient's data
+    """
     def get(self, request, patient_id):
         patient = Patients.objects.get(id=patient_id)
         visits = Visit.objects.filter(patient=patient).order_by('date')
@@ -100,6 +121,10 @@ class PatientDetailView(LoginRequiredMixin, View):
 
 
 class AddVisitView(LoginRequiredMixin, View):
+    """
+    Adds a new visit and returns details of patient's data
+    Medical Doctor permissions required.
+    """
     def get(self, request, patient_id):
         form = AddVisitForm()
         title1 = 'Add Visit Form'
@@ -123,13 +148,16 @@ class AddVisitView(LoginRequiredMixin, View):
             Visit.objects.create(patient=patient, name=visit_name,
                                  weight=weight, ogtt=ogtt, discontinuation=discontinuation,
                                  related_adverse_event= related_AE, author=author)
-            return redirect('main_page')
+            return redirect('patient_details', patient_id=patient_id)
         title1 = 'Add Visit Form'
         title2 = f'Patient ID: {patient_id}'
         return render(request, 'form.html', {'form': form, 'title1': title1, 'title2': title2})
 
 class AddAdverseEventView(LoginRequiredMixin, View):
-
+    """
+    Adds a new adverse event and returns details of patient's data
+    Medical Doctor permissions required.
+    """
     def get(self, request, patient_id):
         patient = Patients.objects.get(id=patient_id)
         form = AddAdverseEventForm()
@@ -145,14 +173,17 @@ class AddAdverseEventView(LoginRequiredMixin, View):
             ae.patient = patient
             ae.author = request.user
             ae.save()
-            return redirect(reverse ('patient_details',  kwargs={"patient_id": patient_id}))
+            return redirect('patient_details', patient_id=patient_id)
         title1 = 'Adverse Event Form'
         title2 = f'Patient ID: {patient.id}'
         return render(request, 'form.html', {'form': form, 'title1': title1, 'title2': title2})
 
 
 class UpdateAdverseEventView(LoginRequiredMixin, View):
-
+    """
+    Updates an adverse event and returns details of patient's data
+    Medical Doctor permissions required.
+    """
     def get(self, request, patient_id, ae_id):
         patient = Patients.objects.get(id=patient_id)
         ae_to_be_updated = AdverseEvent.objects.get(id=ae_id)

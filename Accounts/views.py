@@ -28,17 +28,22 @@ class LoginView(View):
 
 
 class LogOutView(View):
+
     def get(self, request):
         logout(request)
         return redirect('index')
 
 
 class RegisterView(LoginRequiredMixin, View):
-     def get(self, request):
+    """
+    Creates a new user.
+    Admin permissions required.
+    """
+    def get(self, request):
          form = CreateUserForm()
          return render(request, 'form.html', {'form': form})
 
-     def post(self, request):
+    def post(self, request):
          form = CreateUserForm(request.POST)
          if form.is_valid():
              user = form.save(commit=False)
@@ -50,6 +55,10 @@ class RegisterView(LoginRequiredMixin, View):
 
 
 class UserPermSetting(UserPassesTestMixin, View):
+    """
+    Defines a new user's permissions. Returns login form.
+    Admin permissions required.
+    """
     def test_func(self):
         return self.request.user.is_superuser
 
@@ -68,6 +77,9 @@ class UserPermSetting(UserPassesTestMixin, View):
 
 
 class Change_password(LoginRequiredMixin, View):
+    """
+    Changes a user's password.
+    """
     def get(self, request):
         form = ChangePasswordForm()
         return render(request, 'form.html', {'form': form})
@@ -87,6 +99,9 @@ class Change_password(LoginRequiredMixin, View):
 
 
 class UserListView(View):
+    """
+    Returns a list of all patients.
+    """
     def get(self, request):
         users = User.objects.all()
         return render(request, 'users_list_view.html', {'users': users})
