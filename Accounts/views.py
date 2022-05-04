@@ -49,11 +49,6 @@ class RegisterView(LoginRequiredMixin, View):
          return render(request, 'form.html', {'form': form})
 
 
-class UserListView(View):
-    model = User
-    template_name = 'users_list_view.html'
-
-
 class UserPermSetting(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_superuser
@@ -90,3 +85,8 @@ class Change_password(LoginRequiredMixin, View):
             form = ChangePasswordForm(request.user)
             return render(request, 'form.html', {'form': form})
 
+
+class UserListView(View):
+    def get(self, request):
+        users = User.objects.all()
+        return render(request, 'users_list_view.html', {'users': users})
